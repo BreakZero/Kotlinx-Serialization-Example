@@ -58,7 +58,7 @@ internal object RpcRequestBodySerializer : KSerializer<RpcRequestBody> {
 
                     0 -> rpc = decodeStringElement(descriptor, 0)
                     1 -> method = decodeStringElement(descriptor, 1)
-                    2 -> params = decodeSerializableElement(descriptor, 2, ListSerializer(ParameterSerialize))
+                    2 -> params = decodeSerializableElement(descriptor, 2, ListSerializer(Parameter.serializer()))
                     3 -> id = decodeIntElement(descriptor, 3)
                 }
             }
@@ -83,7 +83,7 @@ internal object RpcRequestBodySerializer : KSerializer<RpcRequestBody> {
         encoder.encodeStructure(descriptor) {
             encodeStringElement(descriptor, 0, value.jsonrpc)
             encodeStringElement(descriptor, 1, value.method)
-            encodeSerializableElement(descriptor, 2, ListSerializer(ParameterSerialize), value.params)
+            encodeSerializableElement(descriptor, 2, ListSerializer(Parameter.serializer()), value.params)
             encodeIntElement(descriptor, 3, value.id)
         }
     }

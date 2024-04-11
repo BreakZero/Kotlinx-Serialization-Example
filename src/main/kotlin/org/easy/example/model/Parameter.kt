@@ -2,6 +2,7 @@ package org.easy.example.model
 
 import kotlinx.serialization.Serializable
 
+@Serializable(with = ParameterSerialize::class)
 internal sealed interface Parameter {
     @Serializable
     data class CallParameter(

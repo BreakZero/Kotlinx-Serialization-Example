@@ -1,11 +1,13 @@
 package org.easy.example
 
+import kotlinx.serialization.builtins.IntArraySerializer
 import kotlinx.serialization.builtins.ListSerializer
+import kotlinx.serialization.builtins.serializer
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.modules.SerializersModule
 import kotlinx.serialization.modules.polymorphic
+import kotlinx.serialization.modules.subclass
 import org.easy.example.model.Parameter
-import org.easy.example.model.ParameterSerialize
 import org.easy.example.model.RpcRequestBody
 
 fun main() {
@@ -16,7 +18,7 @@ fun main() {
         allowStructuredMapKeys = true
         serializersModule = SerializersModule {
             polymorphic(List::class) {
-                ListSerializer(ParameterSerialize)
+                ListSerializer(Parameter.serializer())
             }
             polymorphic(Parameter::class) {
                 subclass(Parameter.CallParameter::class, Parameter.CallParameter.serializer())
@@ -66,4 +68,5 @@ fun main() {
 
     val obj = json.decodeFromString<RpcRequestBody>(jsonStr)
     println("$obj")
+
 }
